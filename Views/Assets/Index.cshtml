@@ -1,0 +1,91 @@
+﻿@model IEnumerable<CorporateAssetManager.Models.Asset>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerialNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNumber)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="Asset Img" style="width: 80px; height: auto; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Sin foto</span>
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @if (item.Status.ToString() == "Available")
+                {
+                    <span style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 15px; font-weight: bold;">Disponible</span>
+                }
+                else if (item.Status.ToString() == "Assigned")
+                {
+                    <span style="background-color: #cce5ff; color: #004085; padding: 5px 10px; border-radius: 15px; font-weight: bold;">Asignado</span>
+                }
+                else if (item.Status.ToString() == "Broken")
+                {
+                    <span style="background-color: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 15px; font-weight: bold;">Dañado</span>
+                }
+                else if (item.Status.ToString() == "Retired")
+                {
+                    <span style="background-color: #e2e3e5; color: #383d41; padding: 5px 10px; border-radius: 15px; font-weight: bold;">Retirado</span>
+                }
+                else
+                {
+                    <span>@item.Status</span>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
