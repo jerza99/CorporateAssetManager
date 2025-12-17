@@ -20,10 +20,25 @@ namespace CorporateAssetManager.Controllers
         }
 
         // GET: AssetAssignments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = _context.AssetAssignments.Include(a => a.Asset).Include(a => a.Employee);
-            return View(await applicationDbContext.ToListAsync());
+            //Preparar la consulta para obtener los assetAssignments con sus relaciones
+            var assetAssignments = _context.AssetAssignments.Include(a => a.Asset).Include(a => a.Employee).AsQueryable();
+
+            // ver si el usuario escribio algo en la caja de busqeda
+            if (!string.IsNullOrEmpty(searchString)){
+                // Filtrar los assetAssignments por el nombre del activo o el nombre del empleado
+                assetAssignments = assetAssignments.Where(a => 
+                    (a.Asset != null && a.Asset.Name.Contains(searchString)) || 
+                    (a.Employee != null && a.Employee.FullName.Contains(searchString)));
+            
+                ViewData["CurrentFilter"] = searchString;
+            }
+
+            // Ordenar los assetAssignments por la fecha de asignación de forma descendente
+            assetAssignments = assetAssignments.OrderByDescending(a => a.AssignedDate);
+
+            return View(await assetAssignments.ToListAsync());
         }
 
         // GET: AssetAssignments/Details/5
