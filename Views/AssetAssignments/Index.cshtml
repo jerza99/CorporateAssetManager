@@ -12,46 +12,59 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Asset)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Employee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AssignedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReturnDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comments)
-            </th>
-            <th></th>
+            <th>Activo / Equipo</th>
+            <th>Empleado</th>
+            <th>Fecha Asignación</th>
+            <th>Fecha Devolución</th>
+            <th>Comentarios</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Asset.Name)
+                @if (item.Asset != null)
+                {
+                    <strong>@Html.DisplayFor(modelItem => item.Asset.Name)</strong>
+                    <br>
+                    <small class="text-muted">
+                        @Html.DisplayFor(modelItem => item.Asset.SerialNumber)
+                    </small>
+                }
+                else
+                {
+                    <span class="text-muted">N/A</span>
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Employee.Department)
+                @if (item.Employee != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Employee.FullName)
+                }
+                else
+                {
+                    <span class="text-muted">N/A</span>
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AssignedDate)
+                @item.AssignedDate.ToShortDateString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate)
+                @if (item.ReturnDate != null){
+                    @item.ReturnDate.Value.ToShortDateString()
+                }else{
+                    <span class="text-muted">No devuelto</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="text-primary">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="text-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">Delete</a> |
+                <a asp-action="ReturnAsset" asp-route-id="@item.Id" class="text-success">Devolver</a>
             </td>
         </tr>
 }

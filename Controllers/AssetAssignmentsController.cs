@@ -61,6 +61,12 @@ namespace CorporateAssetManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,AssetId,EmployeeId,AssignedDate,ReturnDate,Comments")] AssetAssignment assetAssignment)
         {
+            // Verificar si el activo ya está asignado a otro empleado
+            bool isAssetAvailable = await _context.AssetAssignments.AnyAsync(a => a.AssetId == assetAssignment.AssetId && a.ReturnDate == null);
+            if (isAssetAvailable)
+            {
+                ModelState.AddModelError("AssetId", "El activo ya está asignado a otro empleado.");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(assetAssignment);
@@ -165,6 +171,36 @@ namespace CorporateAssetManager.Controllers
         private bool AssetAssignmentExists(int id)
         {
             return _context.AssetAssignments.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> ReturnAsset(int? id){
+
+            // Verificar si el id es nulo
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Buscar el assetAssignment por el id
+            var assetAssignment = await _context.AssetAssignments.FindAsync(id);
+            if (assetAssignment == null)
+            {
+                return NotFound();
+            }
+
+            // Verificar si el assetAssignment ya tiene una fecha de devolución
+            if (assetAssignment.ReturnDate != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Actualizar la fecha de devolución
+            assetAssignment.ReturnDate = DateTime.Now;
+
+            // Guardar los cambios
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }
