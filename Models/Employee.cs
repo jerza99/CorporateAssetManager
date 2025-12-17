@@ -28,6 +28,6 @@ namespace CorporateAssetManager.Models
         public bool IsActive { get; set; } = true;
 
         //Relacion entre tablas
-        public virtual ICollection<AssetAssignment> Assignments { get; set; }
+        public virtual ICollection<AssetAssignment>? Assignments { get; set; }
     }
 }
