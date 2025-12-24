@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. CONFIGURACIÓN DE LA CONEXIÓN A BASE DE DATOS ---
+// --- 1. CONFIGURACIï¿½N DE LA CONEXIï¿½N A BASE DE DATOS ---
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -12,10 +12,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// --- 2. CONFIGURACIÓN DE IDENTITY (Login) ---
+// --- 2. CONFIGURACIï¿½N DE IDENTITY (Login) ---
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
