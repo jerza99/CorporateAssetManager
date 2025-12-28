@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CorporateAssetManager.Data;
 using CorporateAssetManager.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CorporateAssetManager.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;

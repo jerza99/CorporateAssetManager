@@ -1,6 +1,7 @@
 using CorporateAssetManager.Data; 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity; 
+using Microsoft.AspNetCore.Identity;
+using CorporateAssetManager.Models; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // --- 2. CONFIGURACI�N DE IDENTITY (Login) ---
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
@@ -36,8 +37,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Importante: Razor Pages debe ir ANTES de ControllerRoute
+app.MapRazorPages();
+
+// Importante: Static Assets debe ir ANTES de ControllerRoute
 app.MapStaticAssets();
 
+// Importante: ControllerRoute debe ir AL FINAL
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")

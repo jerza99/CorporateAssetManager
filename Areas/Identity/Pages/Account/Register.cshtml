@@ -1,0 +1,109 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="login-card">
+    <div class="brand-logo">
+        Corporate<span>Asset</span>
+        <img src="~/images/logo.svg" alt="Logo" class="logo-icon">
+    </div>
+
+    <div class="text-center mb-3">
+        <h4 class="fw-bold m-0">Crear nueva cuenta</h4>
+        <p class="text-muted small">Completa el formulario para registrarte</p>
+    </div>
+
+    <form id="registerForm" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        
+        <div class="mb-2">
+            <label asp-for="Input.FullName" class="form-label small text-muted">Nombre Completo</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input asp-for="Input.FullName" class="form-control" autocomplete="name" placeholder="Juan Pérez" />
+            </div>
+            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Input.Email" class="form-label small text-muted">Correo Electrónico</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="nombre@empresa.com" />
+                </div>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Input.Phone" class="form-label small text-muted">Teléfono</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input asp-for="Input.Phone" class="form-control" autocomplete="tel" placeholder="+1234567890" />
+                </div>
+                <span asp-validation-for="Input.Phone" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label asp-for="Input.Age" class="form-label small text-muted">Edad</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    <input asp-for="Input.Age" type="number" class="form-control" placeholder="25" />
+                </div>
+                <span asp-validation-for="Input.Age" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Input.Department" class="form-label small text-muted">Departamento</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-building"></i></span>
+                    <input asp-for="Input.Department" class="form-control" placeholder="IT" />
+                </div>
+                <span asp-validation-for="Input.Department" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Input.JobTitle" class="form-label small text-muted">Cargo</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                    <input asp-for="Input.JobTitle" class="form-control" placeholder="Desarrollador" />
+                </div>
+                <span asp-validation-for="Input.JobTitle" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Input.Password" class="form-label small text-muted">Contraseña</label>
+                <div class="input-group password-field">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <input asp-for="Input.Password" type="password" id="passwordInput" class="form-control" autocomplete="new-password" placeholder="••••••••" />
+                    <i class="bi bi-eye toggle-password" id="togglePasswordIcon"></i>
+                </div>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Input.ConfirmPassword" class="form-label small text-muted">Confirmar Contraseña</label>
+                <div class="input-group password-field">
+                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                    <input asp-for="Input.ConfirmPassword" type="password" id="confirmPasswordInput" class="form-control" autocomplete="new-password" placeholder="••••••••" />
+                    <i class="bi bi-eye toggle-password" id="toggleConfirmPasswordIcon"></i>
+                </div>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" id="registerSubmit" class="btn btn-login w-100">
+            Registrarse <i class="bi bi-arrow-right ms-2"></i>
+        </button>
+    </form>
+
+    <div class="text-center mt-4">
+        <p class="small text-muted">¿Ya tienes cuenta? <a asp-page="./Login" class="forgot-password fw-bold">Inicia sesión aquí</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
