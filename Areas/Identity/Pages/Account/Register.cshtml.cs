@@ -123,7 +123,7 @@ namespace CorporateAssetManager.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Action("Index", "Dashboard");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
@@ -168,7 +168,30 @@ namespace CorporateAssetManager.Areas.Identity.Pages.Account
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    string translatedMessage = "";
+
+                    if (error.Code == "PasswordRequiresNonAlphanumeric")
+                    {
+                        translatedMessage = "La contraseña debe contener al menos un carácter no alfanumérico.";
+                    }else if (error.Code == "PasswordRequiresLower")
+                    {
+                        translatedMessage = "La contraseña debe contener al menos una letra minúscula.";
+                    }else if (error.Code == "PasswordRequiresUpper")
+                    {
+                        translatedMessage = "La contraseña debe tener al menos una letra mayúscula.";
+                    }else if (error.Code == "PasswordRequiresDigit")
+                    {
+                        translatedMessage = "La contraseña debe tener al menos un número.";
+                    }else if (error.Code == "PasswordTooShort")
+                    {
+                        translatedMessage = "La contraseña debe tener al menos 6 caracteres.";
+                    }
+                    else
+                    {
+                        translatedMessage = error.Description;
+                    }
+
+                    ModelState.AddModelError(string.Empty, translatedMessage);
                 }
             }
 

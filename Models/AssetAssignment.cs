@@ -1,16 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CorporateAssetManager.Models
 {
+    /// <summary>
+    /// Tabla legacy - Se mantiene por compatibilidad temporal.
+    /// Los nuevos registros deben usar AssetAssignmentHistory.
+    /// </summary>
     public class AssetAssignment
     {
         public int Id { get; set; }
 
-        public int AssetId { get; set; }
+        public long AssetId { get; set; }
 
         public virtual Asset? Asset { get; set; } 
         
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
 
         public virtual Employee? Employee { get; set; }  
 
