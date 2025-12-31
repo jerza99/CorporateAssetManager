@@ -1,7 +1,9 @@
 using CorporateAssetManager.Data; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using CorporateAssetManager.Models; 
+using CorporateAssetManager.Models;
+using CorporateAssetManager.Services;
+using Microsoft.AspNetCore.Identity.UI.Services; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +16,30 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // --- 2. CONFIGURACI�N DE IDENTITY (Login) ---
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(); // Necesario para Identity UI (Login, Register, etc.)
+
+// Registrar IEmailSender (mock para desarrollo)
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 var app = builder.Build();
+
+// Seeding the database with initial data
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        await DbInitializer.Initialize(dbContext, roleManager, userManager);
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
