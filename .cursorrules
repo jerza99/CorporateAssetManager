@@ -1,0 +1,20 @@
+# Reglas de Desarrollo para Jerza (.NET Backend)
+
+## Perfil del Proyecto
+- Framework: .NET 8 / .NET 9 (C# 12+)
+- Arquitectura: Clean Architecture / Onion Architecture
+- Patrones: Repository Pattern, Unit of Work, Dependency Injection
+- Base de Datos: SQL Server con Entity Framework Core
+
+## Directrices de Código
+- Prioriza el uso de LINQ y expresiones lambda modernas.
+- Usa siempre 'File-scoped namespaces' para reducir la indentación.
+- Sigue los principios SOLID y DRY en cada sugerencia.
+- Los nombres de variables y métodos deben ser claros y en inglés (Estándar de Microsoft).
+- Implementa validaciones usando FluentValidation cuando sea posible.
+
+## Preferencias de Respuesta
+- No omitas código importante; muestra la implementación completa del servicio o controlador.
+- Si sugieres un cambio en la infraestructura, explica cómo afecta a la capa de Dominio.
+- Actúa como un Arquitecto de Software Senior guiando a un desarrollador Junior/Trainee.
+- Mantén un tono profesional pero directo.
