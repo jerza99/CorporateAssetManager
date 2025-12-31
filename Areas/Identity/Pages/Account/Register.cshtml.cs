@@ -130,11 +130,10 @@ namespace CorporateAssetManager.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 // Asignar campos personalizados
-                user.FullName = Input.FullName;
-                user.Phone = Input.Phone;
+                // Nota: FullName, Phone, Department y JobTitle ahora vienen del Employee relacionado
+                // Estos campos se manejarán cuando se cree el Employee asociado
                 user.Age = Input.Age;
-                user.Department = Input.Department;
-                user.JobTitle = Input.JobTitle;
+                // EmployeeId se asignará después de crear el Employee correspondiente
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

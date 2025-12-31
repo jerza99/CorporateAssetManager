@@ -180,6 +180,13 @@ namespace CorporateAssetManager.Data
                 .WithMany(e => e.TicketsAssigned)
                 .HasForeignKey(t => t.AssignedToEmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Relación entre ApplicationUser y Employee (1:1 opcional)
+            builder.Entity<ApplicationUser>()
+                .HasOne(au => au.Employee)
+                .WithOne(e => e.ApplicationUser)
+                .HasForeignKey<ApplicationUser>(au => au.EmployeeId)
+                .OnDelete(DeleteBehavior.SetNull); // Si se elimina Employee, el usuario puede seguir existiendo
         }
     }
 }

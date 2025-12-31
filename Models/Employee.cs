@@ -87,6 +87,9 @@ namespace CorporateAssetManager.Models
         public virtual ICollection<PurchaseOrder> PurchaseOrdersCreated { get; set; } = new List<PurchaseOrder>();
         public virtual ICollection<PurchaseOrder> PurchaseOrdersApproved { get; set; } = new List<PurchaseOrder>();
 
+        // Relación con ApplicationUser (Identity)
+        public virtual ApplicationUser? ApplicationUser { get; set; }
+
         // Propiedades calculadas para compatibilidad
         [NotMapped]
         [Display(Name = "Nombre Completo")]
